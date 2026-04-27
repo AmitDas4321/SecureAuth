@@ -89,7 +89,7 @@ Built with performance and security in mind, SecureAuth delivers a reliable auth
 ## 📸 Preview
 
 <p align="center">
-  <video src="./public/preview.webm" width="800" controls></video>
+  <img src="./public/preview.gif" alt="SecureAuth Preview" width="800">
 </p>
 
 ---
