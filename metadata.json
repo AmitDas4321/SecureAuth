@@ -1,0 +1,8 @@
+{
+  "name": "SecureAuth",
+  "description": "Secure web authenticator with WhatsApp OTP login, AES-GCM encrypted TOTP storage, and QR scanning features.",
+  "requestFramePermissions": [
+    "camera"
+  ],
+  "majorCapabilities": []
+}
