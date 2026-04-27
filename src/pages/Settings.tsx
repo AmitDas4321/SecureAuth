@@ -71,7 +71,7 @@ export default function Settings() {
           icon: HelpCircle, 
           label: 'Documentation', 
           arrow: true, 
-          onClick: () => window.open('https://github.com/AmitDas4321/SecureAuth/documentation', '_blank')
+          onClick: () => window.open('https://github.com/AmitDas4321/SecureAuth/wiki', '_blank')
         },
         { 
           icon: Github, 
