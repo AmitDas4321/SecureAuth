@@ -131,7 +131,7 @@ export default function Settings() {
             onClick={handleLogout}
             className="w-full bg-red-50 text-red-600 border border-red-100 py-4 rounded-2xl flex items-center justify-center gap-2 font-bold text-sm hover:bg-red-100 transition-all active:scale-95 shadow-sm"
           >
-            <LogOut className="w-4 h-4" /> De-authenticate Client
+            <LogOut className="w-4 h-4" /> Sign Out
           </button>
         </div>
 
