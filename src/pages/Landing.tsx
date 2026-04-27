@@ -89,7 +89,7 @@ export default function Landing() {
                 Get Started Now <ArrowRight className="w-5 h-5" />
               </button>
               <a 
-                href="https://github.com/secure-auth-vault"
+                href="https://github.com/AmitDas4321/SecureAuth"
                 target="_blank"
                 rel="noreferrer"
                 className="w-full sm:w-auto px-10 py-5 bg-white text-text-primary border-2 border-border rounded-2xl text-base md:text-lg font-black uppercase tracking-widest hover:border-brand transition-all flex items-center justify-center gap-3"
@@ -226,7 +226,7 @@ export default function Landing() {
             <a href="#" className="text-xs font-bold text-text-muted hover:text-brand uppercase tracking-widest">Twitter</a>
           </div>
           <div className="text-[10px] font-bold text-text-muted uppercase tracking-widest">
-            © 2026 {APP_NAME.toUpperCase()} VAULT. ALL RIGHTS RESERVED.
+            © {new Date().getFullYear()} {APP_NAME.toUpperCase()} VAULT. ALL RIGHTS RESERVED.
           </div>
         </div>
       </footer>
