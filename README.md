@@ -318,7 +318,7 @@ server {
 
 ```bash
 docker build -t secureauth .
-docker run -p 3000:3000 --env-file .env secureauth
+docker run -d -p 3000:3000 --env-file .env --name secureauth-app secureauth
 ```
 
 ---
