@@ -6,15 +6,21 @@ import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, '.', '');
+
   return {
     plugins: [
       react(),
       tailwindcss(),
+
       VitePWA({
         registerType: 'autoUpdate',
-        includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'mask-icon.svg'],
+        includeAssets: [
+          'favicon.ico',
+          'apple-touch-icon.png',
+          'mask-icon.svg'
+        ],
         manifest: {
-          name: `${env.APP_NAME || 'SecureAuth'} Web`,
+          name: `${env.APP_NAME || 'SecureAuth'}`,
           short_name: env.APP_NAME || 'SecureAuth',
           description: 'Secure web-based TOTP authenticator',
           theme_color: '#141414',
@@ -22,15 +28,15 @@ export default defineConfig(({ mode }) => {
           display: 'standalone',
           orientation: 'portrait',
           scope: '/',
-          start_url: '/',
+          start_url: '/dashboard',
           icons: [
             {
-              src: 'https://cdn-icons-png.flaticon.com/512/2092/2092215.png',
+              src: '/icons/icon-192.png',
               sizes: '192x192',
               type: 'image/png'
             },
             {
-              src: 'https://cdn-icons-png.flaticon.com/512/2092/2092215.png',
+              src: '/icons/icon-512.png',
               sizes: '512x512',
               type: 'image/png',
               purpose: 'any maskable'
@@ -47,7 +53,7 @@ export default defineConfig(({ mode }) => {
                 cacheName: 'google-fonts-cache',
                 expiration: {
                   maxEntries: 10,
-                  maxAgeSeconds: 60 * 60 * 24 * 365 // <== 365 days
+                  maxAgeSeconds: 60 * 60 * 24 * 365
                 },
                 cacheableResponse: {
                   statuses: [0, 200]
@@ -58,20 +64,22 @@ export default defineConfig(({ mode }) => {
         }
       })
     ],
+
     define: {
-      'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
       'process.env.APP_NAME': JSON.stringify(env.APP_NAME || 'SecureAuth'),
-      'process.env.APP_URL': JSON.stringify(env.APP_URL || 'https://example.com'),
+      'process.env.APP_URL': JSON.stringify(env.APP_URL || 'https://example.com')
     },
+
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, '.'),
-      },
+        '@': path.resolve(__dirname, '.')
+      }
     },
+
     server: {
       port: 3000,
       host: '0.0.0.0',
-      hmr: process.env.DISABLE_HMR !== 'true',
-    },
+      hmr: process.env.DISABLE_HMR !== 'true'
+    }
   };
 });
