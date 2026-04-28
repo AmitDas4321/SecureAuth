@@ -4,19 +4,99 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>SecureAuth</title>
+    <meta name="description" content="SecureAuth is a secure web-based authenticator app for managing TOTP authentication codes with encrypted local storage, offline support, and a fast privacy-focused experience." />
+    <meta name="keywords" content="SecureAuth, authenticator app, TOTP, 2FA, MFA, OTP manager, secure authentication, offline authenticator, privacy" />
+    <meta name="author" content="Amit Das" />
     <meta name="theme-color" content="#141414" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="SecureAuth" />
-    <link rel="icon" href="./public/icons/icon-512.png" type="image/png">
-    <link rel="shortcut icon" href="./public/icons/icon-512.png" type="image/png">
-    <link rel="apple-touch-icon" sizes="180x180" href="./public/icons/icon-512.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="./public/icons/icon-512.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="./public/icons/icon-512.png">
+    <meta property="og:title" content="SecureAuth" />
+    <meta property="og:description" content="A secure and privacy-focused web authenticator for managing TOTP verification codes with offline support and encrypted storage." />
+    <meta property="og:type" content="website" />
+    <link rel="icon" href="/icons/icon-512.png" type="image/png" />
+    <link rel="shortcut icon" href="/icons/icon-512.png" type="image/png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-512.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/icons/icon-512.png" />
+    
+    <style>
+      body {
+        user-select: none;
+      }
+
+      input,
+      textarea {
+        user-select: text;
+      }
+    </style>
   </head>
+
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      document.addEventListener(
+        "contextmenu",
+        function (e) {
+          const tag = e.target.tagName.toLowerCase();
+
+          if (tag === "input" || tag === "textarea") {
+            e.stopPropagation(); // stop body handler
+            return true;
+          }
+        },
+        true 
+      );
+
+      document.addEventListener("keydown", function (e) {
+        const tag = document.activeElement.tagName.toLowerCase();
+
+        if (tag === "input" || tag === "textarea") return;
+
+        if (
+          (e.ctrlKey && ["c", "u", "s", "x", "v"].includes(e.key.toLowerCase())) ||
+          e.key === "F12"
+        ) {
+          e.preventDefault();
+        }
+      });
+
+      console.log("%cStop!", "color: red; font-size: 50px; font-weight: bold;");
+
+      console.log(
+        "%cThis is a browser feature intended for developers. If someone told you to paste code here, it may be a scam.",
+        "font-size: 16px; color: white; background-color: black; padding: 5px;"
+      );
+
+      console.log(
+        "See %chttps://t.me/BlueOrbitDevs%c for more information.",
+        "color: blue; text-decoration: underline;",
+        ""
+      );
+
+      (function () {
+        const devtools = /./;
+        devtools.toString = function () {
+          this.opened = true;
+        };
+
+        const check = new Function("debugger;");
+
+        setInterval(function () {
+          const wasOpened = devtools.opened;
+          devtools.opened = false;
+          check();
+
+          if (devtools.opened || wasOpened) {
+            console.clear();
+            console.log(
+              "%cDeveloper tools detected.",
+              "color: red; font-size: 16px;"
+            );
+          }
+        }, 1000);
+      })();
+    </script>
   </body>
 </html>
-
