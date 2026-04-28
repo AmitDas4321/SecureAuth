@@ -6,6 +6,7 @@ import { useRegisterSW } from 'virtual:pwa-register/react';
 export const PWAPrompt: React.FC = () => {
   const [installPrompt, setInstallPrompt] = useState<any>(null);
   const [showInstallBanner, setShowInstallBanner] = useState(false);
+  const [dismissed, setDismissed] = useState(false);
 
   const {
     offlineReady: [offlineReady, setOfflineReady],
@@ -21,10 +22,14 @@ export const PWAPrompt: React.FC = () => {
   });
 
   useEffect(() => {
+    const isDismissed = sessionStorage.getItem('pwa-offline-dismissed');
+
+    if (isDismissed === 'true') {
+      setDismissed(true);
+    }
+
     const handleBeforeInstallPrompt = (e: any) => {
-      // Prevent the mini-infobar from appearing on mobile
       e.preventDefault();
-      // Stash the event so it can be triggered later.
       setInstallPrompt(e);
       setShowInstallBanner(true);
     };
@@ -32,21 +37,22 @@ export const PWAPrompt: React.FC = () => {
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
 
     return () => {
-      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+      window.removeEventListener(
+        'beforeinstallprompt',
+        handleBeforeInstallPrompt
+      );
     };
   }, []);
 
   const handleInstallClick = async () => {
     if (!installPrompt) return;
 
-    // Show the install prompt
     installPrompt.prompt();
 
-    // Wait for the user to respond to the prompt
     const { outcome } = await installPrompt.userChoice;
+
     console.log(`User response to the install prompt: ${outcome}`);
 
-    // We've used the prompt, and can't use it again, throw it away
     setInstallPrompt(null);
     setShowInstallBanner(false);
   };
@@ -54,11 +60,16 @@ export const PWAPrompt: React.FC = () => {
   const closePrompt = () => {
     setOfflineReady(false);
     setNeedRefresh(false);
+
+    if (offlineReady) {
+      sessionStorage.setItem('pwa-offline-dismissed', 'true');
+      setDismissed(true);
+    }
   };
 
   return (
     <AnimatePresence>
-      {(offlineReady || needRefresh) && (
+      {((offlineReady && !dismissed) || needRefresh) && (
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
@@ -70,17 +81,22 @@ export const PWAPrompt: React.FC = () => {
               <div className="p-2 bg-brand/10 text-brand rounded-xl">
                 <RefreshCw className="w-5 h-5" />
               </div>
+
               <div>
                 <h3 className="text-sm font-bold text-text-primary">
-                  {offlineReady ? 'Ready to work offline' : 'Update Available'}
+                  {offlineReady
+                    ? 'Ready to work offline'
+                    : 'Update Available'}
                 </h3>
+
                 <p className="text-xs text-text-muted font-medium">
-                  {offlineReady 
-                    ? 'App has been cached and is ready for offline use.' 
+                  {offlineReady
+                    ? 'App has been cached and is ready for offline use.'
                     : 'A new version of the app is available. Please refresh to update.'}
                 </p>
               </div>
             </div>
+
             <button
               onClick={closePrompt}
               className="p-1 hover:bg-bg-main rounded-lg transition-colors text-text-muted"
@@ -88,7 +104,7 @@ export const PWAPrompt: React.FC = () => {
               <X className="w-4 h-4" />
             </button>
           </div>
-          
+
           {needRefresh && (
             <button
               onClick={() => updateServiceWorker(true)}
@@ -112,13 +128,17 @@ export const PWAPrompt: React.FC = () => {
               <div className="p-2 bg-white/20 rounded-xl">
                 <Download className="w-5 h-5" />
               </div>
+
               <div>
                 <h3 className="text-sm font-bold">Install App</h3>
+
                 <p className="text-xs text-white/80 font-medium">
-                  Install SecureAuth on your home screen for quick access and offline features.
+                  Install SecureAuth on your home screen for quick access and
+                  offline features.
                 </p>
               </div>
             </div>
+
             <button
               onClick={() => setShowInstallBanner(false)}
               className="p-1 hover:bg-white/10 rounded-lg transition-colors"
@@ -126,6 +146,7 @@ export const PWAPrompt: React.FC = () => {
               <X className="w-4 h-4" />
             </button>
           </div>
+
           <button
             onClick={handleInstallClick}
             className="w-full py-2 bg-white text-brand text-xs font-bold rounded-xl hover:bg-opacity-90 transition-colors"
