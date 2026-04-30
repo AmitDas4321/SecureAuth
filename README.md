@@ -171,7 +171,9 @@ http://localhost:3000
 
 ### Services
 
-* TextSnap API
+* TextSnap API — https://textsnap.in/
+  > Get your API credentials for WhatsApp OTP delivery
+
 * Firebase Realtime Database
 
 ---
