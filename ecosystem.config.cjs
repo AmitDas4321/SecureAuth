@@ -3,10 +3,14 @@ require('dotenv').config();
 module.exports = {
   apps: [
     {
-      name: process.env.APP_NAME,
-      script: "server.ts",
-      interpreter: "node",
-      interpreter_args: "--import tsx"
+      name: process.env.APP_NAME || 'SecureAuth',
+      script: 'dist/server.cjs',
+      instances: 1,
+      autorestart: true,
+      watch: false,
+      env: {
+        NODE_ENV: 'production'
+      }
     }
   ]
 };

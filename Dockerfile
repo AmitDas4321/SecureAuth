@@ -8,6 +8,8 @@ RUN npm install
 
 COPY . .
 
+RUN npm run build
+
 EXPOSE 3000
 
-CMD ["node", "--import", "tsx", "server.ts"]
+CMD ["node", "dist/server.cjs"]
