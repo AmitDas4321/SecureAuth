@@ -32,8 +32,16 @@ async function startServer() {
   app.use(
     helmet({
       contentSecurityPolicy: false,
+      frameguard: false,
+      crossOriginEmbedderPolicy: false,
+      crossOriginOpenerPolicy: false,
+      crossOriginResourcePolicy: false,
     })
   );
+  app.use((_req, res, next) => {
+    res.removeHeader('X-Frame-Options');
+    next();
+  });
   app.use(cors());
 
   const apiLimiter = rateLimit({
