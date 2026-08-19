@@ -316,11 +316,81 @@ server {
 
 ---
 
-## 🐳 Docker Support
+## 🐳 Docker Deployment
+
+SecureAuth provides official pre-built Docker images available on both **Docker Hub** and **GitHub Container Registry (GHCR)**.
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Docker_Hub-amitdas4321%2Fsecureauth-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker Hub">
+  <img src="https://img.shields.io/badge/GHCR-ghcr.io%2Famitdas4321%2Fsecureauth-181717?style=for-the-badge&logo=github&logoColor=white" alt="GHCR">
+</p>
+
+### Pull Pre-built Images
+
+#### From Docker Hub:
+```bash
+docker pull amitdas4321/secureauth:latest
+```
+
+#### From GitHub Container Registry (GHCR):
+```bash
+docker pull ghcr.io/amitdas4321/secureauth:latest
+```
+
+---
+
+### Run Container with Docker
+
+#### Using Docker Hub Image:
+```bash
+docker run -d \
+  --name secureauth-app \
+  --restart unless-stopped \
+  -p 3000:3000 \
+  --env-file .env \
+  amitdas4321/secureauth:latest
+```
+
+#### Using GHCR Image:
+```bash
+docker run -d \
+  --name secureauth-app \
+  --restart unless-stopped \
+  -p 3000:3000 \
+  --env-file .env \
+  ghcr.io/amitdas4321/secureauth:latest
+```
+
+---
+
+### Run with Docker Compose
+
+1. Make sure your `.env` file is configured in the root directory.
+2. Start the stack:
 
 ```bash
-docker build -t secureauth .
-docker run -d -p 3000:3000 --env-file .env --name secureauth-app secureauth
+docker compose up -d
+```
+
+3. View container logs:
+
+```bash
+docker compose logs -f
+```
+
+4. Stop the container:
+
+```bash
+docker compose down
+```
+
+---
+
+### Build & Run Locally (Manual Build)
+
+```bash
+docker build -t secureauth:latest .
+docker run -d -p 3000:3000 --env-file .env --name secureauth-app secureauth:latest
 ```
 
 ---
